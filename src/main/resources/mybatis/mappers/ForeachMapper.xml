@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chryl.mapper.ForeachMapper">
     <!-- 批量添加 :注意 insert 别用别名-->
-    <!-- 没有open 和 close  ,-->
+    <!-- 注意:没有open 和 close  ,-->
     <insert id="inserts" parameterType="list">
         INSERT INTO
         a_a (id,name)
@@ -10,16 +10,6 @@
 
         <foreach collection="params" item="param" index="index" separator=",">
             (#{param},#{name})
-        </foreach>
-    </insert>
-    <!-- 带open 和close -->
-    <insert id="inserts2" parameterType="list">
-        INSERT INTO
-        a_a (id,name)
-        VALUES
-
-        <foreach collection="params" item="param" index="index" separator="," open="(" close=")">
-            #{param},#{name}
         </foreach>
     </insert>
     <!-- 批量删除 -->
@@ -32,4 +22,23 @@
             #{param}
         </foreach>
     </delete>
+
+    <!-- 批量更新 -->
+    <update id="updateBatch" parameterType="list">
+
+        <foreach collection="params" index="key" item="value" separator=";">
+            UPDATE a_a a
+            <set>
+                <if test="value!=null and value!=''">
+                    a.name = #{value}
+                </if>
+            </set>
+            <where>
+                <if test="key!=null and key!=''">
+                    a.id= #{key}
+                </if>
+            </where>
+        </foreach>
+
+    </update>
 </mapper>
