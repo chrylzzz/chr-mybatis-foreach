@@ -16,4 +16,6 @@ public interface ForeachMapper {
     int deleteIds(@Param("params") List<String> ids);
 
     int updateBatch(@Param("params") Map<String,String> map);
+
+    int updatesGIdById(@Param("projectId") String fileGId, @Param("params") List<String> picIdList);
 }

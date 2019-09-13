@@ -41,4 +41,14 @@
         </foreach>
 
     </update>
+    <!-- 根据id -->
+    <update id="updatesGIdById" parameterType="string">
+        UPDATE ss_project_pic p SET p.project_g_project_id = #{projectId}
+        WHERE p.project_pic_id IN
+        <foreach collection="params" item="param" open="(" separator="," close=")">
+            <if test="param!=null and param!=''">
+                #{param}
+            </if>
+        </foreach>
+    </update>
 </mapper>
